@@ -1,8 +1,13 @@
 {
-    "name": "View",
+    "name": "Presenter",
     "rootNamespace": "",
     "references": [
-        "GUID:6055be8ebefd69e48b49212b09b47b2f"
+        "GUID:4126d8778c4dc0043ae5f8b35198b36b",
+        "GUID:1c1347516c37c7848822f636d400671c",
+        "GUID:d7f332fd2765a9f428588996b23cd478",
+        "GUID:8ae4ddf2afd25784c8afe72be0ca7518",
+        "GUID:1ea74cbc9a4eb514aa22f15703a66520",
+        "GUID:6053622aae69d0045b86543002f350ed"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
