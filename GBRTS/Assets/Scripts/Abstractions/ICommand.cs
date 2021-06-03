@@ -19,7 +19,7 @@ namespace Abstractions
 
     public interface IAttackCommand : ICommand
     {
-        
+        public IAttackable Target { get; }
     }
 
     public interface IStopCommand : ICommand
@@ -29,6 +29,7 @@ namespace Abstractions
 
     public interface IPatrolCommand : ICommand
     {
-        
+        public Vector3 From { get; }
+        public Vector3 To { get; }
     }
 }

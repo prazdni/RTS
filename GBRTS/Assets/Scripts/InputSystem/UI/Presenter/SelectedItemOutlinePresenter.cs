@@ -10,7 +10,7 @@ namespace UI.Presenter
         
         protected void Start()
         {
-            _item.OnSelected += OnSelect;
+            _item.OnValueChanged += OnSelect;
             _item.OnDeselected += OnDeselect;
         }
 

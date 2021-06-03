@@ -1,21 +1,20 @@
 ﻿using System;
 using Abstractions;
+using InputSystem.UI.Model;
 using UnityEngine;
 
 namespace UI.Model
 {
     [CreateAssetMenu(fileName = "SelectedItem", menuName = "Strategy/SelectedItem")]
-    public class SelectedItem : ScriptableObject
+    public class SelectedItem : ScriptableObjectBase<ISelectableItem>
     {
-        public Action<ISelectableItem> OnSelected;
         public Action<ISelectableItem> OnDeselected;
-        private ISelectableItem _currentValue;
-
-        public void SetValue(ISelectableItem item)
+        
+        public override void SetValue(ISelectableItem item)
         {
-            OnDeselected?.Invoke(_currentValue);
-            _currentValue = item;
-            OnSelected?.Invoke(item);
+            OnDeselected?.Invoke(item);
+            
+            base.SetValue(item);
         }
     }
 }

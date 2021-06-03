@@ -13,7 +13,7 @@ namespace UI.Presenter
         
         protected void Start()
         {
-            _item.OnSelected += UpdateView;
+            _item.OnValueChanged += UpdateView;
         }
 
         private void UpdateView(ISelectableItem selectableItem)

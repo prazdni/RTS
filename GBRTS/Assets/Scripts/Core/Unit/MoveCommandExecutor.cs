@@ -7,7 +7,8 @@ namespace Core.Unit
     {
         protected override void ExecuteConcreteCommand(IMoveCommand command)
         {
-            Debug.Log(name + " is moving!");
+            //TODO сделать плавное перемещение во времени
+            transform.position = command.Position;
         }
     }
 }

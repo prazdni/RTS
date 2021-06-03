@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58ee2f4b85cbbfd40ace78d9c843c0ca, type: 3}
+  m_Name: AssetsInstaller
+  m_EditorClassIdentifier: 
+  _assetsContext: {fileID: 11400000, guid: 4cfa81e307cc0bf45b8d786195b3c754, type: 2}
+  _currentSelection: {fileID: 11400000, guid: 5724fcc657bd3a4499ebca2f1b678fa0, type: 2}
+  _currentGroundPosition: {fileID: 11400000, guid: e163f18d3e7629844b46d556b78be98e,
+    type: 2}
+  _currentAttackableValue: {fileID: 11400000, guid: a4459498bf0552340826be51e14c76c6,
+    type: 2}

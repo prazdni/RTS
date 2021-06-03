@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Linq;
 using Abstractions;
+using InputSystem.UI.Model;
 using UI.Model;
 using UI.View;
 using UnityEngine;
+using Zenject;
 
 namespace UI.Presenter
 {
@@ -12,13 +14,12 @@ namespace UI.Presenter
         [SerializeField] private SelectedItem _item;
         [SerializeField] private ButtonsPanelView _view;
 
-        [SerializeField] private AssetsContext _assetsContext;
-        
+        [Inject] private ButtonPanel _buttonPanel;
         private ISelectableItem _currentSelectedItem;
 
         protected void Start()
         {
-            _item.OnSelected += SetButtons;
+            _item.OnValueChanged += SetButtons;
             _view.OnClick += HandleClick;
             
             _view.ClearButtons();
@@ -41,32 +42,7 @@ namespace UI.Presenter
 
         private void HandleClick(ICommandExecutor commandExecutor)
         {
-            //Todo: разнести создание комманд
-
-            if (commandExecutor is CommandExecutorBase<IProduceUnitCommand>)
-            {
-                commandExecutor.Execute(_assetsContext.Inject(new ProduceUnitCommandHeir()));
-            }
-
-            if (commandExecutor as CommandExecutorBase<IAttackCommand>)
-            {
-                commandExecutor.Execute(_assetsContext.Inject(new AttackCommand()));
-            }
-            
-            if (commandExecutor as CommandExecutorBase<IStopCommand>)
-            {
-                commandExecutor.Execute(_assetsContext.Inject(new StopCommand()));
-            }
-            
-            if (commandExecutor as CommandExecutorBase<IMoveCommand>)
-            {
-                commandExecutor.Execute(_assetsContext.Inject(new MoveCommand()));
-            }
-            
-            if (commandExecutor as CommandExecutorBase<IPatrolCommand>)
-            {
-                commandExecutor.Execute(_assetsContext.Inject(new PatrolCommand()));
-            }
+            _buttonPanel.HandleClick(commandExecutor);
         }
     }
 }

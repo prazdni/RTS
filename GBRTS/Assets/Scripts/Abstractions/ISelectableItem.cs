@@ -3,11 +3,10 @@ using UnityEngine;
 
 namespace Abstractions
 {
-    public interface ISelectableItem
+    public interface ISelectableItem : IHealthHolder
     {
+        Transform UnitTransform { get; }
         Sprite Icon { get; }
-        float Health { get; }
-        float MaxHealth { get; }
         Outline Outline { get; }
     }
 }
