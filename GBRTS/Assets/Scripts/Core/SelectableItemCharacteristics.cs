@@ -11,7 +11,8 @@ namespace Core
         [SerializeField] private float _health;
         [SerializeField] private float _maxHealth;
         [SerializeField] private Outline _outline;
-        
+
+        public Transform UnitTransform => transform;
         public Sprite Icon => _icon;
         public float Health => _health;
         public float MaxHealth => _maxHealth;

@@ -1,5 +1,6 @@
 ﻿using Abstractions;
 using UnityEngine;
+using Zenject;
 
 namespace System
 {
@@ -17,7 +18,12 @@ namespace System
 
     public class AttackCommand : IAttackCommand
     {
-        
+        public IAttackable Target { get; }
+
+        public AttackCommand(IAttackable target)
+        {
+            Target = target;
+        }
     }
 
     public class StopCommand : IStopCommand
@@ -28,10 +34,22 @@ namespace System
     public class MoveCommand : IMoveCommand
     {
         public Vector3 Position { get; }
+
+        public MoveCommand(Vector3 position)
+        {
+            Position = position;
+        }
     }
 
     public class PatrolCommand : IPatrolCommand
     {
-        
+        public Vector3 From { get; }
+        public Vector3 To { get; }
+
+        public PatrolCommand(Vector3 from, Vector3 to)
+        {
+            From = from;
+            To = to;
+        }
     }
 }
