@@ -1,12 +1,13 @@
 ﻿using Abstractions;
 using UI.Model;
 using UnityEngine;
+using Zenject;
 
 namespace UI.Presenter
 {
     public class SelectedItemOutlinePresenter : MonoBehaviour
     {
-        [SerializeField] private SelectedItem _item;
+        [Inject] private SelectedItem _item;
         
         protected void Start()
         {
@@ -24,6 +25,7 @@ namespace UI.Presenter
 
         private void OnDeselect(ISelectableItem deselectedItem)
         {
+            Debug.Log(deselectedItem != null);
             if (deselectedItem != null)
             {
                 deselectedItem.Outline.enabled = false;

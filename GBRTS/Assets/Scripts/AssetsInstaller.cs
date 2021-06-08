@@ -1,4 +1,5 @@
 using System;
+using Abstractions;
 using InputSystem.UI.Model;
 using UI.Model;
 using UnityEngine;
@@ -15,5 +16,9 @@ public class AssetsInstaller : ScriptableObjectInstaller<AssetsInstaller>
     public override void InstallBindings()
     {
         Container.BindInstances(_assetsContext, _currentSelection, _currentGroundPosition, _currentAttackableValue);
+        Container.Bind<AssetsContext>().FromInstance(_assetsContext).AsSingle();
+        Container.Bind<IAwaitable<Vector3>>().FromInstance(_currentGroundPosition).AsSingle();
+        Container.Bind<IAwaitable<IAttackable>>().FromInstance(_currentAttackableValue).AsSingle();
+        Container.Bind<IAwaitable<ISelectableItem>>().FromInstance(_currentSelection).AsSingle();
     }
 }

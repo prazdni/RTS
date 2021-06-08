@@ -12,7 +12,7 @@ namespace UI.Model
         
         public override void SetValue(ISelectableItem item)
         {
-            OnDeselected?.Invoke(item);
+            OnDeselected?.Invoke(CurrentValue);
             
             base.SetValue(item);
         }

@@ -14,7 +14,7 @@ namespace Core
             }
 
             var transform1 = transform;
-            Instantiate(command.UnitPrefab, transform1.position, Quaternion.identity, transform1.parent);
+            Instantiate(command.UnitPrefab, transform1.position + Vector3.forward * 3, Quaternion.identity, transform1.parent);
         }
     }
 }

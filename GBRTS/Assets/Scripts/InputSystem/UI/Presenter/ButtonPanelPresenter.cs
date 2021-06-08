@@ -19,10 +19,16 @@ namespace UI.Presenter
 
         protected void Start()
         {
-            _item.OnValueChanged += SetButtons;
+            _item.OnValueChanged += HandleSelectionChanged;
             _view.OnClick += HandleClick;
             
             _view.ClearButtons();
+        }
+
+        private void HandleSelectionChanged(ISelectableItem item)
+        {
+            _buttonPanel.HandleSelectionChanged();
+            SetButtons(item);
         }
 
         private void SetButtons(ISelectableItem item)
