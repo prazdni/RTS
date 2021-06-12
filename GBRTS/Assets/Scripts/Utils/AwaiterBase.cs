@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 public abstract class AwaiterBase<TResult> : IAwaiter<TResult>
 {
@@ -12,6 +13,7 @@ public abstract class AwaiterBase<TResult> : IAwaiter<TResult>
         
     public void OnCompleted(Action continuation)
     {
+        Debug.Log("Completed");
         _continuation = continuation;
         if (IsCompleted)
         {

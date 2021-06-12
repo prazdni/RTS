@@ -26,7 +26,6 @@ namespace UI.Model
     
     public abstract class CancellableCommandCreatorBase<T, TParam> : CommandCreatorBase<T> where T : ICommand
     {
-        [Inject] private AssetsContext _context;
         [Inject] private IAwaitable<TParam> _param;
         private CancellationTokenSource _tokenSource;
 
@@ -89,7 +88,7 @@ namespace UI.Model
     
     public class PatrolCommandCreator : CancellableCommandCreatorBase<IPatrolCommand, Vector3>
     {
-        [Inject] private ISelectableItem _selectedItem;
-        protected override IPatrolCommand CreateSpecificCommand(Vector3 param) => new PatrolCommand(_selectedItem.UnitTransform.position, param);
+        [Inject] private SelectedItem _selectedItem;
+        protected override IPatrolCommand CreateSpecificCommand(Vector3 param) => new PatrolCommand(_selectedItem.CurrentValue.UnitTransform.position, param);
     }
 }

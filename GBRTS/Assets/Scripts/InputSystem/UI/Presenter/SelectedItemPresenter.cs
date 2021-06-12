@@ -3,12 +3,13 @@ using Abstractions;
 using UI.Model;
 using UI.View;
 using UnityEngine;
+using Zenject;
 
 namespace UI.Presenter
 {
     public class SelectedItemPresenter : MonoBehaviour
     {
-        [SerializeField] private SelectedItem _item;
+        [Inject] private SelectedItem _item;
         [SerializeField] private SelectedItemView _view;
         
         protected void Start()

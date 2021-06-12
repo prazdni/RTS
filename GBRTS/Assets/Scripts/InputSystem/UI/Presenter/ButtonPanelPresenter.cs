@@ -11,7 +11,7 @@ namespace UI.Presenter
 {
     public class ButtonPanelPresenter : MonoBehaviour
     {
-        [SerializeField] private SelectedItem _item;
+        [Inject] private SelectedItem _item;
         [SerializeField] private ButtonsPanelView _view;
 
         [Inject] private ButtonPanel _buttonPanel;

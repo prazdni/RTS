@@ -4,18 +4,10 @@ using UnityEngine.AI;
 
 namespace Core
 {
-    [RequireComponent(typeof(NavMeshAgent))]
     public class UnitMovementStop : MonoBehaviour, IAwaitable<AsyncExtensions.Void>
     {
         public event Action OnStop;
 
-        private NavMeshAgent _navMeshAgent;
-
-        private void Awake()
-        {
-            _navMeshAgent = GetComponent<NavMeshAgent>();
-        }
-        
         public IAwaiter<AsyncExtensions.Void> GetAwaiter() => new StopAwaiter(this);
 
         public class StopAwaiter : AwaiterBase<AsyncExtensions.Void>
@@ -25,15 +17,14 @@ namespace Core
             public StopAwaiter(UnitMovementStop unitMovementStop)
             {
                 _unitMovementStop = unitMovementStop;
-                _unitMovementStop.OnStop += onStop;
+                _unitMovementStop.OnStop += OnStop;
             }
 
-            private void onStop()
+            private void OnStop()
             {
-                _unitMovementStop.OnStop -= onStop;
+                _unitMovementStop.OnStop -= OnStop;
                 HandleValueChanged(new AsyncExtensions.Void());
             }
-
         }
     }
 }

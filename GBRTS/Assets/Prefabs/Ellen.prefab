@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 3594748859803784607}
   - component: {fileID: 7904288313695430383}
   - component: {fileID: 2140395277231549614}
+  - component: {fileID: 4705851014020449219}
   - component: {fileID: 9105121237457763136}
   m_Layer: 0
   m_Name: Ellen
@@ -131,6 +132,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48ced0556e7a484fbda3c2997c2ade4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _stop: {fileID: 4705851014020449219}
+  _stopCommandExecutor: {fileID: 7904288313695430383}
 --- !u!114 &7904288313695430383
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -153,6 +156,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f88b144ce09d46d2a56f6a09b8e959e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4705851014020449219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3704642242280563456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10898026f1a948b09b107b1f508c66ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!195 &9105121237457763136

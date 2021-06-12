@@ -33,6 +33,8 @@ namespace Core.Unit
                 _navMeshAgent.ResetPath();
             }
 
+            _stopCommandExecutor.CancellationTokenSource.Cancel();
+            _stopCommandExecutor.CancellationTokenSource.Dispose();
             _stopCommandExecutor.CancellationTokenSource = null;
         }
     }

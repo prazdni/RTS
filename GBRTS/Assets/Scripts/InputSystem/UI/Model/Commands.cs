@@ -8,6 +8,8 @@ namespace System
     {
         [InjectAsset("Ellen")] private GameObject _unit;
         public virtual GameObject UnitPrefab => _unit;
+        [Inject] public int ProductionTime { get; }
+        [Inject] public Sprite ProductionIcon { get; }
     }
     
     public class ProduceUnitCommandHeir : ProduceUnitCommand

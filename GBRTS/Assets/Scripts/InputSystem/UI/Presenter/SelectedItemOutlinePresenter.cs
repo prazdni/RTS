@@ -25,7 +25,6 @@ namespace UI.Presenter
 
         private void OnDeselect(ISelectableItem deselectedItem)
         {
-            Debug.Log(deselectedItem != null);
             if (deselectedItem != null)
             {
                 deselectedItem.Outline.enabled = false;

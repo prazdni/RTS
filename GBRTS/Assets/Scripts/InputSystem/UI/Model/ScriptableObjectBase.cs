@@ -30,7 +30,7 @@ namespace InputSystem.UI.Model
 
             private void OnNewValue(TAwaited result)
             {
-                _valueContainer.OnValueChanged -= HandleValueChanged;
+                _valueContainer.OnValueChanged -= OnNewValue;
                 HandleValueChanged(result);
             }
         }
