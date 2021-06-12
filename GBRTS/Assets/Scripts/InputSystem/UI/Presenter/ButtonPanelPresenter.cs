@@ -4,6 +4,7 @@ using Abstractions;
 using InputSystem.UI.Model;
 using UI.Model;
 using UI.View;
+using UniRx;
 using UnityEngine;
 using Zenject;
 
@@ -11,7 +12,7 @@ namespace UI.Presenter
 {
     public class ButtonPanelPresenter : MonoBehaviour
     {
-        [SerializeField] private SelectedItem _item;
+        [Inject] private SelectedItem _item;
         [SerializeField] private ButtonsPanelView _view;
 
         [Inject] private ButtonPanel _buttonPanel;
@@ -19,7 +20,7 @@ namespace UI.Presenter
 
         protected void Start()
         {
-            _item.OnValueChanged += HandleSelectionChanged;
+            _item.Subscribe(HandleSelectionChanged);
             _view.OnClick += HandleClick;
             
             _view.ClearButtons();

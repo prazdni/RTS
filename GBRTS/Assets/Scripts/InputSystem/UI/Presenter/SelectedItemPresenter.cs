@@ -2,18 +2,20 @@
 using Abstractions;
 using UI.Model;
 using UI.View;
+using UniRx;
 using UnityEngine;
+using Zenject;
 
 namespace UI.Presenter
 {
     public class SelectedItemPresenter : MonoBehaviour
     {
-        [SerializeField] private SelectedItem _item;
+        [Inject] private SelectedItem _item;
         [SerializeField] private SelectedItemView _view;
         
         protected void Start()
         {
-            _item.OnValueChanged += UpdateView;
+            _item.Subscribe(UpdateView);
         }
 
         private void UpdateView(ISelectableItem selectableItem)

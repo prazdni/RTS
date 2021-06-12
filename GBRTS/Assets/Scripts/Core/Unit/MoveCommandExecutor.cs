@@ -32,8 +32,6 @@ namespace Core.Unit
                 _navMeshAgent.isStopped = true;
                 _navMeshAgent.ResetPath();
             }
-
-            _stopCommandExecutor.CancellationTokenSource = null;
         }
     }
 }
