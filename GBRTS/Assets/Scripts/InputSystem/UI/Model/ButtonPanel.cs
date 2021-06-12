@@ -1,5 +1,6 @@
 ﻿using Abstractions;
 using UI.Model;
+using UnityEngine;
 using Zenject;
 
 namespace InputSystem.UI.Model
@@ -16,6 +17,8 @@ namespace InputSystem.UI.Model
 
         public void HandleClick(ICommandExecutor commandExecutor)
         {
+            CancelPendingCommand();
+            
             _isPending = true;
             
             _produceUnitCommandCreator.CreateCommand(commandExecutor, command => ExecuteSpecificCommand(commandExecutor, command));
@@ -29,6 +32,25 @@ namespace InputSystem.UI.Model
         {
             commandExecutor.Execute(command);
             _isPending = false;
+        }
+
+        public void HandleSelectionChanged()
+        {
+            CancelPendingCommand();
+        }
+
+        private void CancelPendingCommand()
+        {
+            if (!_isPending)
+            {
+                return;
+            }
+
+            _produceUnitCommandCreator.CancelCommand();
+            _moveCommandCreator.CancelCommand();
+            _stopCommandCreator.CancelCommand();
+            _attackCommandCreator.CancelCommand();
+            _patrolCommandCreator.CancelCommand();
         }
     }
 }

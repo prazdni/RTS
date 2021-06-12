@@ -16,7 +16,7 @@ namespace UI.Model
             Container.Bind<CommandCreatorBase<IAttackCommand>>().To<AttackCommandCreator>().AsTransient();
             Container.Bind<CommandCreatorBase<IPatrolCommand>>().To<PatrolCommandCreator>().AsTransient();
 
-            Container.Bind<ButtonPanel>().AsTransient();
+            Container.Bind<ButtonPanel>().AsSingle();
         }
     }
 }

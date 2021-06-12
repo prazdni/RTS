@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using Abstractions;
 using InputSystem.UI.Model;
 using UnityEngine;
@@ -19,8 +20,44 @@ namespace UI.Model
         }
 
         protected abstract void CreateSpecificCommand(Action<T> onCreate);
-        
-        public virtual void ProcessCancel() { }
+
+        public virtual void CancelCommand() { }
+    }
+    
+    public abstract class CancellableCommandCreatorBase<T, TParam> : CommandCreatorBase<T> where T : ICommand
+    {
+        [Inject] private IAwaitable<TParam> _param;
+        private CancellationTokenSource _tokenSource;
+
+        protected override async void CreateSpecificCommand(Action<T> onCreate)
+        {
+            _tokenSource = new CancellationTokenSource();
+            try
+            {
+                var param = await _param.AsTask().WithCancellation(_tokenSource.Token);
+                onCreate?.Invoke(_context.Inject(CreateSpecificCommand(param)));
+            }
+            catch (OperationCanceledException e)
+            {
+                Debug.Log("Operation Canceled");
+            }
+        }
+
+        protected abstract T CreateSpecificCommand(TParam param);
+
+        public override void CancelCommand()
+        {
+            base.CancelCommand();
+
+            if (_tokenSource == null)
+            {
+                return;
+            }
+            
+            _tokenSource.Cancel();
+            _tokenSource.Dispose();
+            _tokenSource = null;
+        }
     }
     
     public class ProduceUnitCommandCreator : CommandCreatorBase<IProduceUnitCommand>
@@ -39,96 +76,19 @@ namespace UI.Model
         }
     }
     
-    public class MoveCommandCreator : CommandCreatorBase<IMoveCommand>
+    public class MoveCommandCreator : CancellableCommandCreatorBase<IMoveCommand, Vector3>
     {
-        [Inject] private AssetsContext _context;
-        
-        private Action<IMoveCommand> _onMove;
-
-        [Inject]
-        private void Init(Vector3Value currentGroundPosition)
-        {
-            currentGroundPosition.OnValueChanged += HandleCurrentGroundPositionChanged;
-        }
-
-        private void HandleCurrentGroundPositionChanged(Vector3 currentGroundPosition)
-        {
-            _onMove?.Invoke(_context.Inject(new MoveCommand(currentGroundPosition)));
-        }
-        
-        protected override void CreateSpecificCommand(Action<IMoveCommand> onCreate)
-        {
-            _onMove = onCreate;
-        }
-        
-        public override void ProcessCancel()
-        {
-            base.ProcessCancel();
-
-            _onMove = null;
-        }
+        protected override IMoveCommand CreateSpecificCommand(Vector3 param) => new MoveCommand(param);
     }
     
-    public class AttackCommandCreator : CommandCreatorBase<IAttackCommand>
+    public class AttackCommandCreator : CancellableCommandCreatorBase<IAttackCommand, IAttackable>
     {
-        [Inject] private AssetsContext _context;
-        
-        private Action<IAttackCommand> _onAttack;
-
-        [Inject]
-        private void Init(AttackableValue currentAttackableValue)
-        {
-            currentAttackableValue.OnValueChanged += HandleCurrentGroundPositionChanged;
-        }
-
-        private void HandleCurrentGroundPositionChanged(IAttackable currentAttackable)
-        {
-            _onAttack?.Invoke(_context.Inject(new AttackCommand(currentAttackable)));
-            _onAttack = null;
-        }
-
-        protected override void CreateSpecificCommand(Action<IAttackCommand> onCreate)
-        {
-            _onAttack = onCreate;
-        }
-
-        public override void ProcessCancel()
-        {
-            base.ProcessCancel();
-
-            _onAttack = null;
-        }
+        protected override IAttackCommand CreateSpecificCommand(IAttackable param) => new AttackCommand(param);
     }
     
-    public class PatrolCommandCreator : CommandCreatorBase<IPatrolCommand>
+    public class PatrolCommandCreator : CancellableCommandCreatorBase<IPatrolCommand, Vector3>
     {
-        [Inject] private AssetsContext _context;
         [Inject] private SelectedItem _selectedItem;
-        
-        private Action<IPatrolCommand> _onPatrol;
-
-        [Inject]
-        private void Init(Vector3Value currentGroundPosition)
-        {
-            currentGroundPosition.OnValueChanged += HandleCurrentGroundPositionChanged;
-        }
-
-        private void HandleCurrentGroundPositionChanged(Vector3 groundClick)
-        {
-            _onPatrol?.Invoke(_context.Inject(new PatrolCommand(_selectedItem.CurrentValue.UnitTransform.position, groundClick)));
-            _onPatrol = null;
-        }
-
-        protected override void CreateSpecificCommand(Action<IPatrolCommand> onPatrol)
-        {
-            _onPatrol = onPatrol;
-        }
-
-        public override void ProcessCancel()
-        {
-            base.ProcessCancel();
-
-            _onPatrol = null;
-        }
+        protected override IPatrolCommand CreateSpecificCommand(Vector3 param) => new PatrolCommand(_selectedItem.CurrentValue.UnitTransform.position, param);
     }
 }

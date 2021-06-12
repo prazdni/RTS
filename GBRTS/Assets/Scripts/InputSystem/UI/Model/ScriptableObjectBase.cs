@@ -1,10 +1,11 @@
 ﻿using System;
-using Abstractions;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace InputSystem.UI.Model
 {
-    public abstract class ScriptableObjectBase<T> : ScriptableObject
+    public abstract class ScriptableObjectBase<T> : ScriptableObject, IAwaitable<T>
     {
         public Action<T> OnValueChanged;
         public T CurrentValue { get; protected set; }
@@ -13,6 +14,25 @@ namespace InputSystem.UI.Model
         {
             CurrentValue = item;
             OnValueChanged?.Invoke(item);
+        }
+
+        public IAwaiter<T> GetAwaiter() => new ValueChangedNotifier<T>(this);
+
+        public class ValueChangedNotifier<TAwaited> : AwaiterBase<TAwaited>
+        {
+            private ScriptableObjectBase<TAwaited> _valueContainer;
+            
+            public ValueChangedNotifier(ScriptableObjectBase<TAwaited> valueContainer)
+            {
+                _valueContainer = valueContainer;
+                valueContainer.OnValueChanged += OnNewValue;
+            }
+
+            private void OnNewValue(TAwaited result)
+            {
+                _valueContainer.OnValueChanged -= OnNewValue;
+                HandleValueChanged(result);
+            }
         }
     }
 }

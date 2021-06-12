@@ -11,7 +11,7 @@ namespace UI.Presenter
 {
     public class ButtonPanelPresenter : MonoBehaviour
     {
-        [SerializeField] private SelectedItem _item;
+        [Inject] private SelectedItem _item;
         [SerializeField] private ButtonsPanelView _view;
 
         [Inject] private ButtonPanel _buttonPanel;
@@ -19,10 +19,16 @@ namespace UI.Presenter
 
         protected void Start()
         {
-            _item.OnValueChanged += SetButtons;
+            _item.OnValueChanged += HandleSelectionChanged;
             _view.OnClick += HandleClick;
             
             _view.ClearButtons();
+        }
+
+        private void HandleSelectionChanged(ISelectableItem item)
+        {
+            _buttonPanel.HandleSelectionChanged();
+            SetButtons(item);
         }
 
         private void SetButtons(ISelectableItem item)
