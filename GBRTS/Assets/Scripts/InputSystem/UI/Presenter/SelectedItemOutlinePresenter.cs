@@ -1,5 +1,6 @@
 ﻿using Abstractions;
 using UI.Model;
+using UniRx;
 using UnityEngine;
 using Zenject;
 
@@ -11,7 +12,7 @@ namespace UI.Presenter
         
         protected void Start()
         {
-            _item.OnValueChanged += OnSelect;
+            _item.Subscribe(OnSelect);
             _item.OnDeselected += OnDeselect;
         }
 

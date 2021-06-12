@@ -6,7 +6,7 @@ using UnityEngine;
 namespace UI.Model
 {
     [CreateAssetMenu(fileName = "SelectedItem", menuName = "Strategy/SelectedItem")]
-    public class SelectedItem : ScriptableObjectBase<ISelectableItem>
+    public class SelectedItem : StatefulScriptableObjectBase<ISelectableItem>
     {
         public Action<ISelectableItem> OnDeselected;
         

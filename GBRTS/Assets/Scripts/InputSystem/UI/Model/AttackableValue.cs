@@ -1,11 +1,12 @@
-﻿using Abstractions;
+﻿using System;
+using Abstractions;
 using UI.Model;
 using UnityEngine;
 
 namespace InputSystem.UI.Model
 {
     [CreateAssetMenu(fileName = nameof(AttackableValue), menuName = "Strategy/" + nameof(AttackableValue))]
-    public class AttackableValue : ScriptableObjectBase<IAttackable>
+    public class AttackableValue : StatelessScriptableObjectBase<IAttackable>
     {
         
     }

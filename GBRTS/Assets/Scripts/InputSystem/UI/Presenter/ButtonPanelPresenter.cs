@@ -4,6 +4,7 @@ using Abstractions;
 using InputSystem.UI.Model;
 using UI.Model;
 using UI.View;
+using UniRx;
 using UnityEngine;
 using Zenject;
 
@@ -19,7 +20,7 @@ namespace UI.Presenter
 
         protected void Start()
         {
-            _item.OnValueChanged += HandleSelectionChanged;
+            _item.Subscribe(HandleSelectionChanged);
             _view.OnClick += HandleClick;
             
             _view.ClearButtons();

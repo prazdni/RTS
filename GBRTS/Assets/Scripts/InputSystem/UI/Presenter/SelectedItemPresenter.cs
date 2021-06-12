@@ -2,6 +2,7 @@
 using Abstractions;
 using UI.Model;
 using UI.View;
+using UniRx;
 using UnityEngine;
 using Zenject;
 
@@ -14,7 +15,7 @@ namespace UI.Presenter
         
         protected void Start()
         {
-            _item.OnValueChanged += UpdateView;
+            _item.Subscribe(UpdateView);
         }
 
         private void UpdateView(ISelectableItem selectableItem)
