@@ -7,7 +7,8 @@ namespace InputSystem.UI.Model
 {
     public class ButtonPanel
     {
-        [Inject] private CommandCreatorBase<IProduceUnitCommand> _produceUnitCommandCreator;
+        [Inject] private CommandCreatorBase<IProduceUnitCommandEllen> _produceUnitEllenCommandCreator;
+        [Inject] private CommandCreatorBase<IProduceUnitCommandChomper> _produceUnitChomperCommandCreator;
         [Inject] private CommandCreatorBase<IMoveCommand> _moveCommandCreator;
         [Inject] private CommandCreatorBase<IStopCommand> _stopCommandCreator;
         [Inject] private CommandCreatorBase<IAttackCommand> _attackCommandCreator;
@@ -22,7 +23,8 @@ namespace InputSystem.UI.Model
             
             _isPending = true;
             
-            _produceUnitCommandCreator.CreateCommand(commandExecutor, command => ExecuteSpecificCommand(commandsQueue, command));
+            _produceUnitEllenCommandCreator.CreateCommand(commandExecutor, command => ExecuteSpecificCommand(commandsQueue, command));
+            _produceUnitChomperCommandCreator.CreateCommand(commandExecutor, command => ExecuteSpecificCommand(commandsQueue, command));
             _moveCommandCreator.CreateCommand(commandExecutor, command => ExecuteSpecificCommand(commandsQueue, command));
             _stopCommandCreator.CreateCommand(commandExecutor, command => ExecuteSpecificCommand(commandsQueue, command));
             _attackCommandCreator.CreateCommand(commandExecutor, command => ExecuteSpecificCommand(commandsQueue, command));
@@ -54,7 +56,8 @@ namespace InputSystem.UI.Model
                 return;
             }
 
-            _produceUnitCommandCreator.CancelCommand();
+            _produceUnitEllenCommandCreator.CancelCommand();
+            _produceUnitChomperCommandCreator.CancelCommand();
             _moveCommandCreator.CancelCommand();
             _stopCommandCreator.CancelCommand();
             _attackCommandCreator.CancelCommand();

@@ -35,15 +35,29 @@ namespace InputSystem
             {
                 if (isHit<ISelectableItem>(hits, out var selectableItem))
                 {
+                    if (isHit<IFractionMember>(hits, out var fractionMember))
+                    {
+                        if (fractionMember.Id != 0)
+                        {
+                            return;
+                        }
+                    }
+                    
                     _currentSelection.SetValue(selectableItem);
                 }
             });
 
             rightClicksRaysHitsStream.Subscribe((ray, hits) =>
             {
-                if (isHit<IAttackable>(hits, out var attackableItem))
+                if (isHit<IFractionMember>(hits, out var fractionMember))
                 {
-                    _currentAttackableValue.SetValue(attackableItem);
+                    if (fractionMember.Id != 0)
+                    {
+                        if (isHit<IAttackable>(hits, out var attackableItem))
+                        {
+                            _currentAttackableValue.SetValue(attackableItem);
+                        }
+                    }
                 }
                 else if (Physics.Raycast(ray, out var hitInfo))
                 {
@@ -61,11 +75,6 @@ namespace InputSystem
             
             result = hits.Select(hit => hit.collider.GetComponentInParent<T>()).FirstOrDefault(c => c != null);
             return result != null;
-        }
-
-        private void Test(IAttackable test)
-        {
-            
         }
     }
 }

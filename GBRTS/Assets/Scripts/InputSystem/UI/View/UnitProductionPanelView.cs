@@ -22,15 +22,24 @@ namespace UI.View
             if (productionTasks.Count > 0)
             {
                 var currentTask = productionTasks[0];
+                
                 _currentProduction.sprite = currentTask.Icon;
-                _currentTime.text = TimeSpan.FromSeconds((int)currentTask.ProductionTime).ToString();
-                _currentProgress.value = currentTask.ProductionTimeLeft / currentTask.ProductionTime;
+                currentTask.ProductionTimeLeft.Subscribe((timeLeft) =>
+                {
+                    UpdateTimeProgress(timeLeft, currentTask.ProductionTime);
+                });
             }
 
             for (int i = 1; i < productionTasks.Count; i++)
             {
                 _images[i - 1].sprite = productionTasks[i].Icon;
             }
+        }
+
+        private void UpdateTimeProgress(float timeLeft, float fullProdTime)
+        {
+            _currentTime.text = TimeSpan.FromSeconds((int)timeLeft).ToString();
+            _currentProgress.value = timeLeft / fullProdTime;
         }
         
         public void AddNewItem(CollectionAddEvent<IUnitProductionTask> newElement)
@@ -39,8 +48,10 @@ namespace UI.View
             {
                 var currentTask = newElement.Value;
                 _currentProduction.sprite = currentTask.Icon;
-                _currentTime.text = TimeSpan.FromSeconds((int)currentTask.ProductionTime).ToString();
-                _currentProgress.value = currentTask.ProductionTimeLeft / currentTask.ProductionTime;
+                currentTask.ProductionTimeLeft.Subscribe((timeLeft) =>
+                {
+                    UpdateTimeProgress(timeLeft, currentTask.ProductionTime);
+                });
             }
             else
             {

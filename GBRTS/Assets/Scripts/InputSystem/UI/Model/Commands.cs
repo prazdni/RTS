@@ -5,17 +5,17 @@ using Zenject;
 
 namespace System
 {
-    public class ProduceEllenUnitCommand : IProduceUnitCommand
+    public class ProduceEllenUnitCommand : IProduceUnitCommandEllen
     {
         [InjectAsset("Ellen")] private GameObject _unit;
         public GameObject UnitPrefab => _unit;
         public IProductionTime ProductionTime => _productionTime;
         [Inject(Id = "Ellen")] private EllenProductionTime _productionTime;
         public IUnitSprite ProductionIcon => _productionIcon;
-        [Inject(Id = "Ellen")] private ChomperUnitSprite _productionIcon;
+        [Inject(Id = "Ellen")] private EllenUnitSprite _productionIcon;
     }
     
-    public class ProduceChomperUnitCommand : IProduceUnitCommand
+    public class ProduceChomperUnitCommand : IProduceUnitCommandChomper
     {
         [InjectAsset("Chomper")] private GameObject _unit;
         public GameObject UnitPrefab => _unit;

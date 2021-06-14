@@ -8,7 +8,7 @@ namespace Core
 {
     public class UnitMovementStop : MonoBehaviour, IAwaitable<AsyncExtensions.Void>
     {
-        public event Action OnStop;
+        public event Action<AsyncExtensions.Void> OnStop;
         
         [SerializeField] private NavMeshAgent _agent;
         [SerializeField] private CollisionDetector _collisionDetector;
@@ -38,7 +38,7 @@ namespace Core
                 {
                     _agent.isStopped = true;
                     _agent.ResetPath();
-                    OnStop?.Invoke();
+                    OnStop?.Invoke(new AsyncExtensions.Void());
                 }).AddTo(this);
         }
 
@@ -47,7 +47,7 @@ namespace Core
             if (_agent.pathPending) return;
             if (!(_agent.remainingDistance <= _agent.stoppingDistance)) return;
             if ((_agent.hasPath && _agent.velocity.sqrMagnitude != 0f)) return;
-            OnStop?.Invoke();
+            OnStop?.Invoke(new AsyncExtensions.Void());
         }
 
         private class StopAwaiter : AwaiterBase<AsyncExtensions.Void>
@@ -57,13 +57,13 @@ namespace Core
             public StopAwaiter(UnitMovementStop unitMovementStop)
             {
                 _unitMovementStop = unitMovementStop;
-                _unitMovementStop.OnStop += onStop;
+                _unitMovementStop.OnStop += HandleValueChanged;
             }
 
-            private void onStop()
+            protected override void HandleValueChanged(AsyncExtensions.Void result)
             {
-                _unitMovementStop.OnStop -= onStop;
-                HandleValueChanged(new AsyncExtensions.Void());
+                _unitMovementStop.OnStop -= HandleValueChanged;
+                base.HandleValueChanged(result);
             }
         }
     }

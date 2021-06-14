@@ -6,12 +6,14 @@ namespace Core
 {
     public class MainBuildingCommandQueue : MonoBehaviour, ICommandsQueue
     {
-        [Inject] private CommandExecutorBase<IProduceUnitCommand> _produceUnitCommandExecutor;
+        [Inject] private ProduceUnitExecutorEllen _produceUnitEllenCommandExecutor;
+        [Inject] private ProduceUnitExecutorChomper _produceUnitChomperCommandExecutor;
         [Inject] private CommandExecutorBase<ISetRallyPointCommand> _setRallyCommandExecutor;
         
         public async void EnqueueCommand(object command)
         {
-            await _produceUnitCommandExecutor.TryExecuteCommand(command);
+            await _produceUnitEllenCommandExecutor.TryExecuteCommand(command);
+            await _produceUnitChomperCommandExecutor.TryExecuteCommand(command);
             await _setRallyCommandExecutor.TryExecuteCommand(command);
         }
 
