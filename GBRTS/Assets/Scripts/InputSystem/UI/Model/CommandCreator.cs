@@ -13,7 +13,7 @@ namespace UI.Model
         
         public void CreateCommand(ICommandExecutor commandExecutor, Action<T> onCreate)
         {
-            if (commandExecutor as CommandExecutorBase<T>)
+            if (commandExecutor is ICommandExecutor<T>)
             {
                 CreateSpecificCommand(onCreate);
             }
@@ -64,7 +64,7 @@ namespace UI.Model
     {
         protected override void CreateSpecificCommand(Action<IProduceUnitCommand> onCreate)
         {
-            onCreate?.Invoke(_context.Inject(new ProduceUnitCommand()));
+            onCreate?.Invoke(_context.Inject(new ProduceEllenUnitCommand()));
         }
     }
     
@@ -90,5 +90,10 @@ namespace UI.Model
     {
         [Inject] private SelectedItem _selectedItem;
         protected override IPatrolCommand CreateSpecificCommand(Vector3 param) => new PatrolCommand(_selectedItem.CurrentValue.UnitTransform.position, param);
+    }
+    
+    public class SetRallyPointCommandCreator : CancellableCommandCreatorBase<ISetRallyPointCommand, Vector3>
+    {
+        protected override ISetRallyPointCommand CreateSpecificCommand(Vector3 param) => new SetRallyPoint(param);
     }
 }

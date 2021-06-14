@@ -12,25 +12,33 @@ namespace InputSystem.UI.Model
         [Inject] private CommandCreatorBase<IStopCommand> _stopCommandCreator;
         [Inject] private CommandCreatorBase<IAttackCommand> _attackCommandCreator;
         [Inject] private CommandCreatorBase<IPatrolCommand> _patrolCommandCreator;
+        [Inject] private CommandCreatorBase<ISetRallyPointCommand> _setRallyCommandCreator;
 
         private bool _isPending;
 
-        public void HandleClick(ICommandExecutor commandExecutor)
+        public void HandleClick(ICommandExecutor commandExecutor, ICommandsQueue commandsQueue)
         {
             CancelPendingCommand();
             
             _isPending = true;
             
-            _produceUnitCommandCreator.CreateCommand(commandExecutor, command => ExecuteSpecificCommand(commandExecutor, command));
-            _moveCommandCreator.CreateCommand(commandExecutor, command => ExecuteSpecificCommand(commandExecutor, command));
-            _stopCommandCreator.CreateCommand(commandExecutor, command => ExecuteSpecificCommand(commandExecutor, command));
-            _attackCommandCreator.CreateCommand(commandExecutor, command => ExecuteSpecificCommand(commandExecutor, command));
-            _patrolCommandCreator.CreateCommand(commandExecutor, command => ExecuteSpecificCommand(commandExecutor, command));
+            _produceUnitCommandCreator.CreateCommand(commandExecutor, command => ExecuteSpecificCommand(commandsQueue, command));
+            _moveCommandCreator.CreateCommand(commandExecutor, command => ExecuteSpecificCommand(commandsQueue, command));
+            _stopCommandCreator.CreateCommand(commandExecutor, command => ExecuteSpecificCommand(commandsQueue, command));
+            _attackCommandCreator.CreateCommand(commandExecutor, command => ExecuteSpecificCommand(commandsQueue, command));
+            _patrolCommandCreator.CreateCommand(commandExecutor, command => ExecuteSpecificCommand(commandsQueue, command));
+            _setRallyCommandCreator.CreateCommand(commandExecutor, command => ExecuteSpecificCommand(commandsQueue, command));
         }
 
-        private void ExecuteSpecificCommand(ICommandExecutor commandExecutor, ICommand command)
+        private void ExecuteSpecificCommand(ICommandsQueue commandsQueue, ICommand command)
         {
-            commandExecutor.Execute(command);
+            if (!Input.GetKey(KeyCode.LeftShift) && !Input.GetKey(KeyCode.RightShift))
+            {
+                commandsQueue.Clear();
+            }
+
+            commandsQueue.EnqueueCommand(command);
+            
             _isPending = false;
         }
 

@@ -42,14 +42,15 @@ namespace UI.Presenter
             _currentSelectedItem = item;
             _view.ClearButtons();
 
-            var commandExecutors =
-                (_currentSelectedItem as Component)?.GetComponentsInParent<ICommandExecutor>().ToList();
-            _view.SetButtons(commandExecutors);
+            var commandExecutors = (_currentSelectedItem as Component)?.GetComponentsInParent<ICommandExecutor>().ToList();
+            var queue = (_currentSelectedItem as Component)?.GetComponentInParent<ICommandsQueue>();
+            Debug.Log(queue == null);
+            _view.SetButtons(commandExecutors, queue);
         }
 
-        private void HandleClick(ICommandExecutor commandExecutor)
+        private void HandleClick(ICommandExecutor commandExecutor, ICommandsQueue commandsQueue)
         {
-            _buttonPanel.HandleClick(commandExecutor);
+            _buttonPanel.HandleClick(commandExecutor, commandsQueue);
         }
     }
 }

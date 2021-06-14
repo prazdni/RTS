@@ -16,9 +16,12 @@ namespace Core.Unit
             _navMeshAgent = GetComponent<NavMeshAgent>();
         }
 
-        protected override void ExecuteConcreteCommand(IPatrolCommand command)
+        public override Task ExecuteConcreteCommand(IPatrolCommand command)
         {
-            Patrol(command.From, command.To);
+            return Task.Run(() =>
+            {
+                Patrol(command.From, command.To);
+            });
         }
 
         private async void Patrol(Vector3 from, Vector3 to)

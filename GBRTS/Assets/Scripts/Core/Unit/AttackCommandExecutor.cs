@@ -1,13 +1,17 @@
-﻿using Abstractions;
+﻿using System.Threading.Tasks;
+using Abstractions;
 using UnityEngine;
 
 namespace Core.Unit
 {
     public class AttackCommandExecutor : CommandExecutorBase<IAttackCommand>
     {
-        protected override void ExecuteConcreteCommand(IAttackCommand command)
+        public override Task ExecuteConcreteCommand(IAttackCommand command)
         {
-            Debug.Log(name + "is attacking!");
+            return Task.Run(() =>
+            {
+                Debug.Log(name + "is attacking!");
+            });
         }
     }
 }

@@ -9,13 +9,14 @@ namespace UI.View
 {
     public class ButtonsPanelView : MonoBehaviour
     {
-        public Action<ICommandExecutor> OnClick;
+        public Action<ICommandExecutor, ICommandsQueue> OnClick;
         
         [SerializeField] private Button _produceUnitButton;
         [SerializeField] private Button _moveButton;
         [SerializeField] private Button _attackButton;
         [SerializeField] private Button _stopButton;
         [SerializeField] private Button _patrolButton;
+        [SerializeField] private Button _setRallyButton;
 
         private Dictionary<Type, Button> _buttons;
 
@@ -23,15 +24,16 @@ namespace UI.View
         {
             _buttons = new Dictionary<Type, Button>
             {
-                {typeof(CommandExecutorBase<IProduceUnitCommand>), _produceUnitButton},
-                {typeof(CommandExecutorBase<IMoveCommand>), _moveButton},
-                {typeof(CommandExecutorBase<IAttackCommand>), _attackButton},
-                {typeof(CommandExecutorBase<IStopCommand>), _stopButton},
-                {typeof(CommandExecutorBase<IPatrolCommand>), _patrolButton}
+                {typeof(ICommandExecutor<IProduceUnitCommand>), _produceUnitButton},
+                {typeof(ICommandExecutor<IMoveCommand>), _moveButton},
+                {typeof(ICommandExecutor<IAttackCommand>), _attackButton},
+                {typeof(ICommandExecutor<IStopCommand>), _stopButton},
+                {typeof(ICommandExecutor<IPatrolCommand>), _patrolButton},
+                {typeof(ICommandExecutor<ISetRallyPointCommand>), _setRallyButton}
             };
         }
 
-        public void SetButtons(List<ICommandExecutor> commandExecutors)
+        public void SetButtons(List<ICommandExecutor> commandExecutors, ICommandsQueue commandsQueue)
         {
             if (commandExecutors == null)
                 return;
@@ -42,7 +44,7 @@ namespace UI.View
                 if (button != null)
                 {
                     button.gameObject.SetActive(true);
-                    button.onClick.AddListener(() => OnClick?.Invoke(executor));
+                    button.onClick.AddListener(() => OnClick?.Invoke(executor, commandsQueue));
                 }
                 else
                 {

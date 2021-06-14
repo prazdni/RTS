@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using System.Threading.Tasks;
 using Abstractions;
 using UnityEngine;
 using UnityEngine.AI;
@@ -19,7 +20,7 @@ namespace Core.Unit
             _navMeshAgent = GetComponent<NavMeshAgent>();
         }
 
-        protected override async void ExecuteConcreteCommand(IMoveCommand command)
+        public override async Task ExecuteConcreteCommand(IMoveCommand command)
         {
             _navMeshAgent.SetDestination(command.Position);
             _stopCommandExecutor.CancellationTokenSource = new CancellationTokenSource();

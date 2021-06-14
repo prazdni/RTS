@@ -15,3 +15,6 @@ MonoBehaviour:
   _assets:
   - {fileID: 3704642242280563456, guid: 069326f8736efb747a5ed7f1d78924b1, type: 3}
   - {fileID: 6370667431771702640, guid: 822f5b071c2d29449b334ea39c77f58d, type: 3}
+  _sprites:
+  - {fileID: 21300000, guid: 084313c8b3054074dbdff531b19e4f16, type: 3}
+  - {fileID: 21300000, guid: e83bd26811e22cc41ad76563f6a8aa95, type: 3}
