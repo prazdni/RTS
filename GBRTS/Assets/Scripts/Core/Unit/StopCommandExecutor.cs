@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using System.Threading.Tasks;
 using Abstractions;
 using UnityEngine;
 using UnityEngine.AI;
@@ -10,11 +11,14 @@ namespace Core.Unit
     {
         public CancellationTokenSource CancellationTokenSource;
 
-        protected override void ExecuteConcreteCommand(IStopCommand command)
+        public override Task ExecuteConcreteCommand(IStopCommand command)
         {
-            CancellationTokenSource?.Cancel();
-            CancellationTokenSource?.Dispose();
-            CancellationTokenSource = null;
+            return Task.Run(() =>
+            {
+                CancellationTokenSource?.Cancel();
+                CancellationTokenSource?.Dispose();
+                CancellationTokenSource = null;
+            });
         }
     }
 }

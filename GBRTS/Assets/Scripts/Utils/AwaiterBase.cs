@@ -21,7 +21,7 @@ public abstract class AwaiterBase<TResult> : IAwaiter<TResult>
         }
     }
 
-    protected void HandleValueChanged(TResult result)
+    protected virtual void HandleValueChanged(TResult result)
     {
         IsCompleted = true;
         _result = result;

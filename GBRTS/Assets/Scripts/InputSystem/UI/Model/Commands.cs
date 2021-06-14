@@ -1,21 +1,28 @@
 ﻿using Abstractions;
+using InputSystem.UI.Model;
 using UnityEngine;
 using Zenject;
 
 namespace System
 {
-    public class ProduceUnitCommand : IProduceUnitCommand
+    public class ProduceEllenUnitCommand : IProduceUnitCommandEllen
     {
         [InjectAsset("Ellen")] private GameObject _unit;
-        public virtual GameObject UnitPrefab => _unit;
-        [Inject] public int ProductionTime { get; }
-        [Inject] public Sprite ProductionIcon { get; }
+        public GameObject UnitPrefab => _unit;
+        public IProductionTime ProductionTime => _productionTime;
+        [Inject(Id = "Ellen")] private EllenProductionTime _productionTime;
+        public IUnitSprite ProductionIcon => _productionIcon;
+        [Inject(Id = "Ellen")] private EllenUnitSprite _productionIcon;
     }
     
-    public class ProduceUnitCommandHeir : ProduceUnitCommand
+    public class ProduceChomperUnitCommand : IProduceUnitCommandChomper
     {
         [InjectAsset("Chomper")] private GameObject _unit;
-        public override GameObject UnitPrefab => _unit;
+        public GameObject UnitPrefab => _unit;
+        public IProductionTime ProductionTime => _productionTime;
+        [Inject(Id = "Chomper")] private ChomperProductionTime _productionTime;
+        public IUnitSprite ProductionIcon => _productionIcon;
+        [Inject(Id = "Chomper")] private ChomperUnitSprite _productionIcon;
     }
 
     public class AttackCommand : IAttackCommand

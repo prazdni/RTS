@@ -10,8 +10,18 @@ namespace Abstractions
     public interface IProduceUnitCommand : ICommand
     {
         GameObject UnitPrefab { get; }
-        int ProductionTime { get; }    
-        Sprite ProductionIcon { get; }
+        IProductionTime ProductionTime { get; }
+        IUnitSprite ProductionIcon { get; }
+    }
+
+    public interface IProduceUnitCommandEllen : IProduceUnitCommand
+    {
+        
+    }
+    
+    public interface IProduceUnitCommandChomper : IProduceUnitCommand
+    {
+        
     }
 
     public interface IMoveCommand : ICommand
@@ -33,5 +43,10 @@ namespace Abstractions
     {
         public Vector3 From { get; }
         public Vector3 To { get; }
+    }
+
+    public interface ISetRallyPointCommand : ICommand
+    {
+        public Vector3 RallyPoint { get; }
     }
 }

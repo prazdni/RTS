@@ -25,13 +25,13 @@ namespace InputSystem.UI.Model
             public ValueChangedNotifier(ScriptableObjectBase<TAwaited> valueContainer)
             {
                 _valueContainer = valueContainer;
-                valueContainer.OnValueChanged += OnNewValue;
+                valueContainer.OnValueChanged += HandleValueChanged;
             }
 
-            private void OnNewValue(TAwaited result)
+            protected override void HandleValueChanged(TAwaited result)
             {
-                _valueContainer.OnValueChanged -= OnNewValue;
-                HandleValueChanged(result);
+                _valueContainer.OnValueChanged -= HandleValueChanged;
+                base.HandleValueChanged(result);
             }
         }
     }
