@@ -9,6 +9,8 @@ namespace Core.Unit
     [RequireComponent(typeof(NavMeshAgent))]
     public class PatrolCommandExecutor : CommandExecutorBase<IPatrolCommand>
     {
+        [SerializeField] private UnitMovementStop _stop;
+        [SerializeField] private StopCommandExecutor _stopCommandExecutor;
         private NavMeshAgent _navMeshAgent;
         
         private void Awake()

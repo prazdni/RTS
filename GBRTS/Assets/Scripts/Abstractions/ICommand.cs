@@ -14,6 +14,16 @@ namespace Abstractions
         IUnitSprite ProductionIcon { get; }
     }
 
+    public interface IProduceUnitCommandEllen : IProduceUnitCommand
+    {
+        
+    }
+    
+    public interface IProduceUnitCommandChomper : IProduceUnitCommand
+    {
+        
+    }
+
     public interface IMoveCommand : ICommand
     {
         Vector3 Position { get; }

@@ -7,13 +7,13 @@ using Zenject;
 
 namespace Core
 {
-    public class ProduceUnitExecutor : CommandExecutorBase<IProduceUnitCommand>, ITickable, IUnitProducer
+    public abstract class ProduceUnitExecutorBase<T> : CommandExecutorBase<T>, ITickable, IUnitProducer where T : class, IProduceUnitCommand
     {
         public IReactiveCollection<IUnitProductionTask> Queue => _queue;
         private IReactiveCollection<IUnitProductionTask> _queue = new ReactiveCollection<IUnitProductionTask>();
-        private DiContainer _diContainer;
+        private DiContainer _diContainer = new DiContainer();
 
-        public override Task ExecuteConcreteCommand(IProduceUnitCommand command)
+        public override Task ExecuteConcreteCommand(T command)
         {
             return Task.Run(() =>
             {
@@ -37,9 +37,9 @@ namespace Core
             }
             
             var currentTask = _queue[0];
-            currentTask.ProductionTimeLeft -= Mathf.Min(Time.deltaTime, currentTask.ProductionTimeLeft);
+            currentTask.ProductionTimeLeft.Value -= Mathf.Min(Time.deltaTime, currentTask.ProductionTimeLeft.Value);
 
-            if (currentTask.ProductionTimeLeft <= 0)
+            if (currentTask.ProductionTime <= 0)
             {
                 CreateUnit(currentTask);
                 Queue.Remove(currentTask);

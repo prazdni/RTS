@@ -15,6 +15,5 @@ namespace InputSystem.UI.Model
                 Container.Bind(baseType).FromInstance(executor);
             }
         }
-
     }
 }

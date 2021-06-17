@@ -60,11 +60,19 @@ namespace UI.Model
         }
     }
     
-    public class ProduceUnitCommandCreator : CommandCreatorBase<IProduceUnitCommand>
+    public class ProduceUnitEllenCommandCreator : CommandCreatorBase<IProduceUnitCommandEllen>
     {
-        protected override void CreateSpecificCommand(Action<IProduceUnitCommand> onCreate)
+        protected override void CreateSpecificCommand(Action<IProduceUnitCommandEllen> onCreate)
         {
             onCreate?.Invoke(_context.Inject(new ProduceEllenUnitCommand()));
+        }
+    }
+    
+    public class ProduceUnitChomperCommandCreator : CommandCreatorBase<IProduceUnitCommandChomper>
+    {
+        protected override void CreateSpecificCommand(Action<IProduceUnitCommandChomper> onCreate)
+        {
+            onCreate?.Invoke(_context.Inject(new ProduceChomperUnitCommand()));
         }
     }
     

@@ -44,7 +44,6 @@ namespace UI.Presenter
 
             var commandExecutors = (_currentSelectedItem as Component)?.GetComponentsInParent<ICommandExecutor>().ToList();
             var queue = (_currentSelectedItem as Component)?.GetComponentInParent<ICommandsQueue>();
-            Debug.Log(queue == null);
             _view.SetButtons(commandExecutors, queue);
         }
 

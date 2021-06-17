@@ -11,7 +11,8 @@ namespace UI.View
     {
         public Action<ICommandExecutor, ICommandsQueue> OnClick;
         
-        [SerializeField] private Button _produceUnitButton;
+        [SerializeField] private Button _produceUnitEllenButton;
+        [SerializeField] private Button _produceUnitChomperButton;
         [SerializeField] private Button _moveButton;
         [SerializeField] private Button _attackButton;
         [SerializeField] private Button _stopButton;
@@ -24,7 +25,8 @@ namespace UI.View
         {
             _buttons = new Dictionary<Type, Button>
             {
-                {typeof(ICommandExecutor<IProduceUnitCommand>), _produceUnitButton},
+                {typeof(ICommandExecutor<IProduceUnitCommandEllen>), _produceUnitEllenButton},
+                {typeof(ICommandExecutor<IProduceUnitCommandChomper>), _produceUnitChomperButton},
                 {typeof(ICommandExecutor<IMoveCommand>), _moveButton},
                 {typeof(ICommandExecutor<IAttackCommand>), _attackButton},
                 {typeof(ICommandExecutor<IStopCommand>), _stopButton},
