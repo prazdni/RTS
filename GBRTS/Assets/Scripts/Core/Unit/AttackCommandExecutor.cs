@@ -9,7 +9,7 @@ using Zenject;
 
 namespace Core.Unit
 {
-    public partial class AttackCommandExecutor : CommandExecutorBase<IAttackCommand>, ITickable
+    public partial class AttackCommandExecutor : CommandExecutorBase<IAttackCommand>
     {
         [SerializeField] private NavMeshAgent _navMeshAgent;
         
@@ -50,10 +50,10 @@ namespace Core.Unit
                 }
             });
         }
-        
-        public void Tick()
+
+        protected void Update()
         {
-            if (_target == null || _currentAttackOperation == null)
+            if (!gameObject.activeSelf || _target == null || _currentAttackOperation == null)
             {
                 return;
             }
@@ -67,15 +67,22 @@ namespace Core.Unit
 
         private void MoveTo(Vector3 to)
         {
-            _navMeshAgent.destination = to;
+            if (gameObject.activeSelf && _navMeshAgent.isActiveAndEnabled)
+            {
+                _navMeshAgent.destination = to;
+            }
         }
 
         private void AttackTarget(IAttackable target)
         {
-            _navMeshAgent.ResetPath();
+            if (_navMeshAgent.isActiveAndEnabled)
+            {
+                _navMeshAgent.ResetPath();
+            }
+
             target.ReceiveDamage(_attackDamage);
 
-            if (target.Health <= 0)
+            if (target.Health <= 0 && _currentAttackOperation != null)
             {
                 _currentAttackOperation.Cancel();
                 _currentAttackOperation = null;

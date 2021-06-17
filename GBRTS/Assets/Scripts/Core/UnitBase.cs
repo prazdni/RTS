@@ -12,12 +12,12 @@ namespace Core
         [SerializeField] private float _maxHealth;
         [SerializeField] private Outline _outline;
         public Transform UnitTransform => transform;
-        public Vector3 Position => transform.position;
+        public Vector3 Position { get; protected set; }
         public Sprite Icon => _icon;
         public float Health => _health;
         public float MaxHealth => _maxHealth;
         public Outline Outline => _outline;
-        
+
         public void ReceiveDamage(float value)
         {
             _health -= value;
